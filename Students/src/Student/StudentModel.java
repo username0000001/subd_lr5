@@ -62,17 +62,17 @@ public class StudentModel extends AbstractTableModel {
             case 1:
                 return list.get(rowIndex). getTelephone();
             case 2:
-                return list.get(rowIndex). getAdress();
+                return list.get(rowIndex). getAddress();
             case 3:
                 return list.get(rowIndex). getTelephone_of_parents(); 
             
             case 4: try {
                     Statement statement = c.createStatement();
-                    ResultSet rs = statement.executeQuery("SELECT * from groop "
-                            + "where id=" + list.get(rowIndex).getGruppaId() 
+                    ResultSet rs = statement.executeQuery("SELECT * from gro_up "
+                            + "where group_id=" + list.get(rowIndex).getGroup_id() 
                             + ";");
                     rs.next();
-                    s = rs.getString("name");
+                    s = rs.getString("group_name");
                 } catch (SQLException ex) {
                     JOptionPane.showMessageDialog(new JFrame(), ex.getMessage());
                 }
@@ -102,7 +102,7 @@ public class StudentModel extends AbstractTableModel {
             case 4:
                 return "Группа";
             case 5:
-                return "sid";
+                return "student_id";
         }
         return null;
     }
@@ -116,42 +116,42 @@ public class StudentModel extends AbstractTableModel {
         List<Student> students = new ArrayList<>();
             ResultSet rs = statement.executeQuery("SELECT * FROM Student");
             while (rs.next()) {
-                Student item = new Student(rs.getInt("sid"), rs.getString("familiya"), 
-                        rs.getString("telefon"),
-                        rs.getString("adres"),rs.getString("phonenumber_of_parents"),rs.getInt("gid"));
+                Student item = new Student(rs.getInt("student_id"), rs.getString("surname"), 
+                        rs.getString("telephon"),
+                        rs.getString("address"),rs.getString("phonenumber_of_parents"),rs.getInt("group_id"));
 
                 students.add(item);
             }
             return students;
     }
-     public static Student selectPrepodavatelById(Connection c, int id) throws SQLException{
+     public static Student selectStudentById(Connection c, int student_id) throws SQLException{
     Statement statement = c.createStatement();
-        ResultSet rs = statement.executeQuery("SELECT * FROM Student WHERE sid = "+id );
+        ResultSet rs = statement.executeQuery("SELECT * FROM Student WHERE student_id = "+student_id );
         Student student = null;
         while (rs.next()) {
-           student = new Student( rs.getInt("sid"), rs.getString("familiya"), 
-                        rs.getString("telefon"),
-                        rs.getString("adres"),rs.getString("phonenumber_of_parents"),rs.getInt("gid")
+           student = new Student( rs.getInt("student_id"), rs.getString("surname"), 
+                        rs.getString("telephon"),
+                        rs.getString("address"),rs.getString("phonenumber_of_parents"),rs.getInt("group_id")
                     );
         }
         return student;
     }
     public void insertOrUpdate(Student editItem, String Surname,
-            String Telephone, String Adress, String Telephone_of_parents, Integer GruppaId) {
+            String Telephone, String Address, String Telephone_of_parents, Integer Group_id) {
         try {
             Statement statement = c.createStatement();
             if (editItem == null) {
                 statement.executeUpdate("insert into Student "
-                    + "(familiya,telefon,adres,phonenumber_of_parents,gid) "
+                    + "(surname,telephon,address,phonenumber_of_parents,group_id) "
                     + "values ('"
                     + Surname + "','" +Telephone+
-                        "','"+Adress+"','"+Telephone_of_parents+"','"+GruppaId
+                        "','"+Address+"','"+Telephone_of_parents+"','"+Group_id
                     + "');");
             } else {
-                statement.executeUpdate("update student set familiya='"
-                    + Surname +  "',telefon='"+Telephone+
-                     "',adres='"+Adress+ "',phonenumber_of_parents='"+Telephone_of_parents+"',gid="+GruppaId+
-                     " where sid="
+                statement.executeUpdate("update student set surname='"
+                    + Surname +  "',telephon='"+Telephone+
+                     "',address='"+Address+ "',phonenumber_of_parents='"+Telephone_of_parents+"',group_id="+Group_id+
+                     " where student_id="
                     + editItem.getId() + ";");
             }
         } catch (SQLException ex) {
@@ -159,11 +159,11 @@ public class StudentModel extends AbstractTableModel {
         }
     } 
     
-    public void delete(int sid){
+    public void delete(int student_id){
         try {
                 Statement statement = c.createStatement();
-                statement.executeUpdate("delete from student where sid="
-                    + sid + ";");
+                statement.executeUpdate("delete from student where student_id="
+                    + student_id + ";");
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(new JFrame(), ex.getMessage());
             }

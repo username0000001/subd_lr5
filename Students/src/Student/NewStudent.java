@@ -5,9 +5,9 @@
  */
 package Student;
 import Entities.Student;
-import Entities.Facultet;
-import Entities.Gruppa;
-import Gruppa.GruppaModel;
+import Entities.Faculty;
+import Entities.Group;
+import Group.GroupModel;
 //import Student.StudentModel;
 import Help.JTextFieldLimit;
 import java.sql.Connection;
@@ -27,7 +27,7 @@ public class NewStudent extends javax.swing.JDialog {
 
      Connection c;
     Student editItem;
-    List<Gruppa> list;
+    List<Group> list;
     /**
      * Creates new form NewStudent
      */
@@ -41,10 +41,10 @@ public class NewStudent extends javax.swing.JDialog {
 //        ((AbstractDocument) name.getDocument()).setDocumentFilter(new JTextFieldLimit(30));
 //        ((AbstractDocument) patronymic.getDocument()).setDocumentFilter(new JTextFieldLimit(30));
         ((AbstractDocument) telephone.getDocument()).setDocumentFilter(new JTextFieldLimit(30));
-        ((AbstractDocument) adress.getDocument()).setDocumentFilter(new JTextFieldLimit(30));
-        ((AbstractDocument) phone.getDocument()).setDocumentFilter(new JTextFieldLimit(30));
+        ((AbstractDocument) address.getDocument()).setDocumentFilter(new JTextFieldLimit(30));
+        ((AbstractDocument) parents_phone.getDocument()).setDocumentFilter(new JTextFieldLimit(30));
         list = new ArrayList<>();
-        gid.setModel(new DefaultComboBoxModel(GruppaModel.selectGruppa(c).toArray()));
+        group_id.setModel(new DefaultComboBoxModel(GroupModel.selectGroup(c).toArray()));
        
     }
      
@@ -59,10 +59,10 @@ public class NewStudent extends javax.swing.JDialog {
 //        ((AbstractDocument) name.getDocument()).setDocumentFilter(new JTextFieldLimit(30));
 //        ((AbstractDocument) patronymic.getDocument()).setDocumentFilter(new JTextFieldLimit(30));
         ((AbstractDocument) telephone.getDocument()).setDocumentFilter(new JTextFieldLimit(30));
-        ((AbstractDocument) adress.getDocument()).setDocumentFilter(new JTextFieldLimit(30));
-        ((AbstractDocument) phone.getDocument()).setDocumentFilter(new JTextFieldLimit(30));
+        ((AbstractDocument) address.getDocument()).setDocumentFilter(new JTextFieldLimit(30));
+        ((AbstractDocument) parents_phone.getDocument()).setDocumentFilter(new JTextFieldLimit(30));
         list = new ArrayList<>();
-        gid.setModel(new DefaultComboBoxModel(GruppaModel.selectGruppa(c).toArray()));
+        group_id.setModel(new DefaultComboBoxModel(GroupModel.selectGroup(c).toArray()));
      
         fillFields();
     }
@@ -72,11 +72,11 @@ public class NewStudent extends javax.swing.JDialog {
 //        name.setText(editItem.getName());
 //        patronymic.setText(editItem.getPatronymic());
         telephone.setText(editItem.getTelephone());
-        adress.setText(editItem.getAdress());
-        phone.setText(editItem.getTelephone_of_parents());
-         for (Gruppa s : list) {
-            if (s.getId() == editItem.getGruppaId()) {
-                gid.setSelectedItem((s));
+        address.setText(editItem.getAddress());
+        parents_phone.setText(editItem.getTelephone_of_parents());
+         for (Group s : list) {
+            if (s.getId() == editItem.getGroup_id()) {
+                group_id.setSelectedItem((s));
             }
         }
        
@@ -85,7 +85,7 @@ public class NewStudent extends javax.swing.JDialog {
       public boolean check() {
         
             if ("".equals(surname.getText())) {
-            JOptionPane.showMessageDialog(new JFrame(), "surname cannot be empty");
+            JOptionPane.showMessageDialog(new JFrame(), "Введите ФИО студента.");
             return false;
             }
             
@@ -102,17 +102,17 @@ public class NewStudent extends javax.swing.JDialog {
 //            }
         
             if ("".equals(telephone.getText())) {
-            JOptionPane.showMessageDialog(new JFrame(), "telephone cannot be empty");
+            JOptionPane.showMessageDialog(new JFrame(), "Введите телефон студента.");
             return false;
             }
         
-            if ("".equals(adress.getText())) {
-            JOptionPane.showMessageDialog(new JFrame(), "adress cannot be empty");
+            if ("".equals(address.getText())) {
+            JOptionPane.showMessageDialog(new JFrame(), "Введите адрес студента.");
             return false;
             }
             
-            if ("".equals(phone.getText())) {
-            JOptionPane.showMessageDialog(new JFrame(), "parent's phone cannot be empty");
+            if ("".equals(parents_phone.getText())) {
+            JOptionPane.showMessageDialog(new JFrame(), "Введите телефон родителей студента.");
         
             return false;
         }
@@ -132,16 +132,16 @@ public class NewStudent extends javax.swing.JDialog {
     private void initComponents() {
 
         jButtonOk1 = new javax.swing.JButton();
-        gid = new javax.swing.JComboBox<>();
+        group_id = new javax.swing.JComboBox<>();
         jLabel6 = new javax.swing.JLabel();
-        adress = new javax.swing.JTextField();
+        address = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         telephone = new javax.swing.JTextField();
         surname = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
-        phone = new javax.swing.JTextField();
+        parents_phone = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -152,17 +152,17 @@ public class NewStudent extends javax.swing.JDialog {
             }
         });
 
-        gid.setToolTipText("");
-        gid.addActionListener(new java.awt.event.ActionListener() {
+        group_id.setToolTipText("");
+        group_id.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                gidActionPerformed(evt);
+                group_idActionPerformed(evt);
             }
         });
 
         jLabel6.setText("Группа");
 
-        adress.setToolTipText("");
-        adress.setName(""); // NOI18N
+        address.setToolTipText("");
+        address.setName(""); // NOI18N
 
         jLabel8.setText("Адрес");
 
@@ -178,8 +178,8 @@ public class NewStudent extends javax.swing.JDialog {
 
         jLabel9.setText("Телефон родителей");
 
-        phone.setToolTipText("");
-        phone.setName(""); // NOI18N
+        parents_phone.setToolTipText("");
+        parents_phone.setName(""); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -202,15 +202,15 @@ public class NewStudent extends javax.swing.JDialog {
                                     .addGap(26, 26, 26)
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(telephone)
-                                        .addComponent(adress))))
+                                        .addComponent(address))))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(phone)
-                                    .addComponent(gid, 0, 163, Short.MAX_VALUE)))))
+                                    .addComponent(parents_phone)
+                                    .addComponent(group_id, 0, 163, Short.MAX_VALUE)))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(172, 172, 172)
                         .addComponent(jButtonOk1)))
@@ -230,14 +230,14 @@ public class NewStudent extends javax.swing.JDialog {
                 .addGap(10, 10, 10)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
-                    .addComponent(adress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(address, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(phone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(parents_phone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(17, 17, 17)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(gid, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(group_id, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jButtonOk1)
@@ -255,8 +255,8 @@ public class NewStudent extends javax.swing.JDialog {
         try{
             StudentModel wm = new StudentModel(c);
             wm.insertOrUpdate(editItem, surname.getText(),
-                   telephone.getText(),adress.getText(),phone.getText(),
-                ((Gruppa) gid.getSelectedItem()).getId());
+                   telephone.getText(),address.getText(),parents_phone.getText(),
+                ((Group) group_id.getSelectedItem()).getId());
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(new JFrame(), ex.getMessage());
             return;
@@ -264,9 +264,9 @@ public class NewStudent extends javax.swing.JDialog {
         dispose();
     }//GEN-LAST:event_jButtonOk1ActionPerformed
 
-    private void gidActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gidActionPerformed
+    private void group_idActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_group_idActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_gidActionPerformed
+    }//GEN-LAST:event_group_idActionPerformed
 
     /**
      * @param args the command line arguments
@@ -275,15 +275,15 @@ public class NewStudent extends javax.swing.JDialog {
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField adress;
-    private javax.swing.JComboBox<String> gid;
+    private javax.swing.JTextField address;
+    private javax.swing.JComboBox<String> group_id;
     private javax.swing.JButton jButtonOk1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JTextField phone;
+    private javax.swing.JTextField parents_phone;
     private javax.swing.JTextField surname;
     private javax.swing.JTextField telephone;
     // End of variables declaration//GEN-END:variables

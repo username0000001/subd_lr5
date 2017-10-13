@@ -6,15 +6,15 @@
 package Main;
 
 import java.awt.HeadlessException;
-import Facultet.Facultets;
+import Faculty.Faculties;
 import Discipline.Disciplines;  
-import Gruppa.Gruppas;
+import Group.Groups;
 import Student.Students;
-import Ocenka.Ocenkas;
-import Vedomost.Vedomosts;
+import Mark.Marks;
+import Report.Reports;
 //import WriteOffReg.WtriteOffRegs;
-import Prepodavatel.Prepodavatels;
-import Prepodavatel_Discipline.Prepodavatel_Discipline_s;
+import Teacher.Teachers;
+import Teacher_Discipline.Teacher_Disciplines;
 //import Section.Sections;
 //import Role.Roles;
 import java.sql.Connection;
@@ -62,13 +62,13 @@ public class Main extends javax.swing.JFrame {
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
-        Facultets = new javax.swing.JMenuItem();
+        Faculties = new javax.swing.JMenuItem();
         Disciplines = new javax.swing.JMenuItem();
         Groups = new javax.swing.JMenuItem();
-        Prepodavatels = new javax.swing.JMenuItem();
-        prepod_disc = new javax.swing.JMenuItem();
+        Teachers = new javax.swing.JMenuItem();
+        Teachers_Disciplines = new javax.swing.JMenuItem();
         students = new javax.swing.JMenuItem();
-        mark = new javax.swing.JMenuItem();
+        marks = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         vedomost = new javax.swing.JMenuItem();
 
@@ -107,13 +107,13 @@ public class Main extends javax.swing.JFrame {
 
         jMenu2.setText("Сущности");
 
-        Facultets.setText("Факультеты");
-        Facultets.addActionListener(new java.awt.event.ActionListener() {
+        Faculties.setText("Факультеты");
+        Faculties.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                FacultetsActionPerformed(evt);
+                FacultiesActionPerformed(evt);
             }
         });
-        jMenu2.add(Facultets);
+        jMenu2.add(Faculties);
 
         Disciplines.setText("Дисциплины");
         Disciplines.addActionListener(new java.awt.event.ActionListener() {
@@ -131,21 +131,21 @@ public class Main extends javax.swing.JFrame {
         });
         jMenu2.add(Groups);
 
-        Prepodavatels.setText("Преподаватели");
-        Prepodavatels.addActionListener(new java.awt.event.ActionListener() {
+        Teachers.setText("Преподаватели");
+        Teachers.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                PrepodavatelsActionPerformed(evt);
+                TeachersActionPerformed(evt);
             }
         });
-        jMenu2.add(Prepodavatels);
+        jMenu2.add(Teachers);
 
-        prepod_disc.setText("Преподаватели и дисциплины");
-        prepod_disc.addActionListener(new java.awt.event.ActionListener() {
+        Teachers_Disciplines.setText("Преподаватели и дисциплины");
+        Teachers_Disciplines.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                prepod_discActionPerformed(evt);
+                Teachers_DisciplinesActionPerformed(evt);
             }
         });
-        jMenu2.add(prepod_disc);
+        jMenu2.add(Teachers_Disciplines);
 
         students.setText("Студенты");
         students.addActionListener(new java.awt.event.ActionListener() {
@@ -155,13 +155,13 @@ public class Main extends javax.swing.JFrame {
         });
         jMenu2.add(students);
 
-        mark.setText("Оценки");
-        mark.addActionListener(new java.awt.event.ActionListener() {
+        marks.setText("Оценки");
+        marks.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                markActionPerformed(evt);
+                marksActionPerformed(evt);
             }
         });
-        jMenu2.add(mark);
+        jMenu2.add(marks);
 
         jMenuBar1.add(jMenu2);
 
@@ -230,10 +230,10 @@ public class Main extends javax.swing.JFrame {
         System.exit(0);
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
-    private void FacultetsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FacultetsActionPerformed
+    private void FacultiesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FacultiesActionPerformed
         if (connection != null) {
             try {
-                Facultets p = new Facultets(this, true, connection);
+                Faculties p = new Faculties(this, true, connection);
                 p.setVisible(true);
             } catch (SQLException ex) {
                 Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
@@ -241,7 +241,7 @@ public class Main extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(new JFrame(), "Нет подключений");
         }
-    }//GEN-LAST:event_FacultetsActionPerformed
+    }//GEN-LAST:event_FacultiesActionPerformed
 
     private void DisciplinesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DisciplinesActionPerformed
         if (connection != null) {
@@ -259,7 +259,7 @@ public class Main extends javax.swing.JFrame {
     private void GroupsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GroupsActionPerformed
         if (connection != null) {
             try {
-                Gruppas p = new Gruppas(this, true, connection);
+                Groups p = new Groups(this, true, connection);
                 p.setVisible(true);
             } catch (SQLException ex) {
                 Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
@@ -269,10 +269,10 @@ public class Main extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_GroupsActionPerformed
 
-    private void PrepodavatelsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PrepodavatelsActionPerformed
+    private void TeachersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TeachersActionPerformed
         if (connection != null) {
             try {
-                Prepodavatels r = new Prepodavatels(this, true, connection);
+                Teachers r = new Teachers(this, true, connection);
                 r.setVisible(true);
             } catch (SQLException ex) {
                 Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
@@ -280,12 +280,12 @@ public class Main extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(new JFrame(), "Нет подключений");
         }
-    }//GEN-LAST:event_PrepodavatelsActionPerformed
+    }//GEN-LAST:event_TeachersActionPerformed
 
-    private void prepod_discActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prepod_discActionPerformed
+    private void Teachers_DisciplinesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Teachers_DisciplinesActionPerformed
         if (connection != null) {
             try {
-                Prepodavatel_Discipline_s w = new Prepodavatel_Discipline_s(this, true, connection);
+                Teacher_Disciplines w = new Teacher_Disciplines(this, true, connection);
                 w.setVisible(true);
             } catch (SQLException ex) {
                 Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
@@ -293,12 +293,12 @@ public class Main extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(new JFrame(), "Нет подключений");
         }
-    }//GEN-LAST:event_prepod_discActionPerformed
+    }//GEN-LAST:event_Teachers_DisciplinesActionPerformed
 
     private void vedomostActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_vedomostActionPerformed
         if (connection != null) {
             try {
-                Vedomosts w = new Vedomosts(this, true, connection);
+                Reports w = new Reports(this, true, connection);
                 w.setVisible(true);
             } catch (SQLException ex) {
                 Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
@@ -322,11 +322,11 @@ public class Main extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_studentsActionPerformed
 
-    private void markActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_markActionPerformed
+    private void marksActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_marksActionPerformed
         // TODO add your handling code here:
         if (connection != null) {
             try {
-                Ocenkas r = new Ocenkas(this, true, connection);
+                Marks r = new Marks(this, true, connection);
                 r.setVisible(true);
             } catch (SQLException ex) {
                 Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
@@ -334,7 +334,7 @@ public class Main extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(new JFrame(), "Нет подключений");
         }
-    }//GEN-LAST:event_markActionPerformed
+    }//GEN-LAST:event_marksActionPerformed
 
     /**
      * @param args the command line arguments
@@ -373,9 +373,10 @@ public class Main extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem Disciplines;
-    private javax.swing.JMenuItem Facultets;
+    private javax.swing.JMenuItem Faculties;
     private javax.swing.JMenuItem Groups;
-    private javax.swing.JMenuItem Prepodavatels;
+    private javax.swing.JMenuItem Teachers;
+    private javax.swing.JMenuItem Teachers_Disciplines;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
@@ -383,8 +384,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
-    private javax.swing.JMenuItem mark;
-    private javax.swing.JMenuItem prepod_disc;
+    private javax.swing.JMenuItem marks;
     private javax.swing.JTextField status;
     private javax.swing.JMenuItem students;
     private javax.swing.JMenuItem vedomost;

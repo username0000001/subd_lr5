@@ -44,18 +44,18 @@ public class NewDiscipline extends javax.swing.JDialog {
     }
 
     private void fillFields() {
-        name.setText(editItem.getName());
+        name.setText(editItem.getDiscipline_name());
         number_of_hours.setText(editItem.getNumber_of_hours().toString());
        
     }
 
     public boolean check() {
         if ("".equals(name.getText())) {
-            JOptionPane.showMessageDialog(new JFrame(), "name cannot be empty");
+            JOptionPane.showMessageDialog(new JFrame(), "Заполните название дисциплины.");
             return false;
         }
         if ("".equals(number_of_hours.getText())) {
-            JOptionPane.showMessageDialog(new JFrame(), "Number_of_hours has wrong format");
+            JOptionPane.showMessageDialog(new JFrame(), "Введите количество часов, выделенных на дисциплину.");
             return false;
         }
         

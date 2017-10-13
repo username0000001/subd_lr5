@@ -10,22 +10,22 @@ package Entities;
  * @author user
  */
 public class Student {
-    private int id;
+    private int Student_id;
     private String Surname;
     private String Telephone;
-    private String Adress;
+    private String Address;
     private String Telephone_of_parents;
-    private int GruppaId;
+    private int Group_id;
    
 
-    public Student(int id, String Surname, 
-            String Telephone,String Adress, String Telephone_of_parents, int GruppaId) {
-        this.id = id;
+    public Student(int Student_id, String Surname, 
+            String Telephone,String Address, String Telephone_of_parents, int Group_id) {
+        this.Student_id = Student_id;
         this.Surname=Surname;
         this.Telephone=Telephone;
-        this.Adress=Adress;
+        this.Address=Address;
         this.Telephone_of_parents=Telephone_of_parents;
-        this.GruppaId=GruppaId;
+        this.Group_id=Group_id;
         
     }
 
@@ -35,11 +35,11 @@ public class Student {
     }
 
     public int getId() {
-        return id;
+        return Student_id;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setId(int Student_id) {
+        this.Student_id = Student_id;
     }
     public String getSurname()
     {
@@ -62,14 +62,14 @@ public class Student {
         this.Telephone=Telephone;
     }
     
-     public String getAdress()
+     public String getAddress()
     {
-        return Adress;
+        return Address;
     }
             
-    public void setAdress(String Adress)
+    public void setAddress(String Address)
     {
-        this.Adress=Adress;
+        this.Address=Address;
     }
     
     public String getTelephone_of_parents()
@@ -82,16 +82,16 @@ public class Student {
         this.Telephone_of_parents=Telephone_of_parents;
     }
     
-     public int getGruppaId() {
-        return GruppaId;
+     public int getGroup_id() {
+        return Group_id;
     }
 
-    public void setGruppaId(int GruppaId) {
-        this.GruppaId = GruppaId;
+    public void setGroup_id(int Group_id) {
+        this.Group_id = Group_id;
     }
  public String getFullInfo() {
         return Surname + " "  + Telephone + " "
-                + Adress + " " + Telephone_of_parents + " " +  GruppaId ;
+                + Address + " " + Telephone_of_parents + " " +  Group_id ;
     }
     
 }

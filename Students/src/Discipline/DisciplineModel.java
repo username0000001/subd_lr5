@@ -52,7 +52,7 @@ public class DisciplineModel extends AbstractTableModel {
     public Object getValueAt(int rowIndex, int columnIndex) {
         switch (columnIndex) {
             case 0:
-                return list.get(rowIndex).getName();
+                return list.get(rowIndex).getDiscipline_name();
             case 1:
                 return list.get(rowIndex).getNumber_of_hours();
           
@@ -81,7 +81,7 @@ public class DisciplineModel extends AbstractTableModel {
         List<Discipline> disciplines = new ArrayList<>();
             ResultSet rs = statement.executeQuery("SELECT * FROM discipline");
             while (rs.next()) {
-                Discipline item = new Discipline(rs.getInt("id"), rs.getString("Name"), 
+                Discipline item = new Discipline(rs.getInt("Discipline_id"), rs.getString("Discipline_name"), 
                         rs.getInt("Number_of_hours"));
 
                 disciplines.add(item);
@@ -89,30 +89,30 @@ public class DisciplineModel extends AbstractTableModel {
             return disciplines;
     }
     
-    public static Discipline selectDisciplineById(Connection c, int id) throws SQLException{
+    public static Discipline selectDisciplineById(Connection c, int Discipline_id) throws SQLException{
     Statement statement = c.createStatement();
-        ResultSet rs = statement.executeQuery("SELECT * FROM Discipline WHERE id = "+id );
+        ResultSet rs = statement.executeQuery("SELECT * FROM Discipline WHERE Discipline_id = "+Discipline_id );
         Discipline discipline = null;
         while (rs.next()) {
-           discipline = new Discipline(rs.getInt("id"), rs.getString("Name"), 
+           discipline = new Discipline(rs.getInt("Discipline_id"), rs.getString("Discipline_name"), 
                     rs.getInt("Number_of_hours"));
         }
         return discipline;
     }
-    public void insertOrUpdate(Discipline editItem, String Name, Integer Number_of_hours) {
+    public void insertOrUpdate(Discipline editItem, String Discipline_name, Integer Number_of_hours) {
         try {
             Statement statement = c.createStatement();
             if (editItem == null) {
                 statement.executeUpdate("insert into Discipline "
-                    + "(Name,Number_of_hours) "
+                    + "(Discipline_name,Number_of_hours) "
                     + "values ('"
-                    + Name + "','" + Number_of_hours
+                    + Discipline_name + "','" + Number_of_hours
                     + "');");
             } else {
-                statement.executeUpdate("update Discipline set Name='"
-                    + Name + "',Number_of_hours="
+                statement.executeUpdate("update Discipline set Discipline_name='"
+                    + Discipline_name + "',Number_of_hours="
                     + Number_of_hours +
-                     " where ID="
+                     " where discipline_id="
                     + editItem.getId() + ";");
             }
         } catch (SQLException ex) {
@@ -120,11 +120,11 @@ public class DisciplineModel extends AbstractTableModel {
         }
     } 
     
-    public void delete(int id){
+    public void delete(int Discipline_id){
         try {
                 Statement statement = c.createStatement();
-                statement.executeUpdate("delete from Discipline where ID="
-                    + id + ";");
+                statement.executeUpdate("delete from Discipline where discipline_id="
+                    + Discipline_id + ";");
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(new JFrame(), ex.getMessage());
             }
