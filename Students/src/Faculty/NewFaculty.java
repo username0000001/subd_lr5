@@ -9,7 +9,6 @@ import Entities.Faculty;
 import Help.JTextFieldLimit;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.sql.Statement;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.text.AbstractDocument;

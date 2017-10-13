@@ -7,12 +7,10 @@ package Teacher;
 
 import Entities.Teacher;
 import Entities.Faculty;
-import Entities.Group;
 import Faculty.FacultyModel;
 import Help.JTextFieldLimit;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
@@ -36,13 +34,9 @@ public class NewTeacher extends javax.swing.JDialog {
         initComponents();
         setLocationRelativeTo(null);
         this.c = c;
-
-        ((AbstractDocument) telephone.getDocument()).setDocumentFilter(new JTextFieldLimit(30));//название полей в форме
-//        ((AbstractDocument) name.getDocument()).setDocumentFilter(new JTextFieldLimit(30));
-//        ((AbstractDocument) patronymic.getDocument()).setDocumentFilter(new JTextFieldLimit(30));
+        ((AbstractDocument) telephone.getDocument()).setDocumentFilter(new JTextFieldLimit(30));
         ((AbstractDocument) address.getDocument()).setDocumentFilter(new JTextFieldLimit(30));
         ((AbstractDocument) surname.getDocument()).setDocumentFilter(new JTextFieldLimit(30));
-        
         list = new ArrayList<>();
         faculty_id.setModel(new DefaultComboBoxModel(FacultyModel.selectFaculty(c).toArray()));
        
@@ -53,30 +47,23 @@ public class NewTeacher extends javax.swing.JDialog {
         setLocationRelativeTo(null);
         this.c = c;
         editItem = u;
-
-        ((AbstractDocument) telephone.getDocument()).setDocumentFilter(new JTextFieldLimit(30));//название полей в форме
-//        ((AbstractDocument) name.getDocument()).setDocumentFilter(new JTextFieldLimit(30));
-//        ((AbstractDocument) patronymic.getDocument()).setDocumentFilter(new JTextFieldLimit(30));
+        ((AbstractDocument) telephone.getDocument()).setDocumentFilter(new JTextFieldLimit(30));
         ((AbstractDocument) address.getDocument()).setDocumentFilter(new JTextFieldLimit(30));
         ((AbstractDocument) surname.getDocument()).setDocumentFilter(new JTextFieldLimit(30));
         list = new ArrayList<>();
         faculty_id.setModel(new DefaultComboBoxModel(FacultyModel.selectFaculty(c).toArray()));
-     
         fillFields();
     }
  
- private void fillFields() {//заполнение в форме нзавание полей в форме
+ private void fillFields() {
         telephone.setText(editItem.getTelephone());
-//        name.setText(editItem.getName());
-//        patronymic.setText(editItem.getPatronymic());
         address.setText(editItem.getAddress());
         surname.setText(editItem.getSurname());
-         for (Faculty s : list) {
+        for (Faculty s : list) {
             if (s.getId() == editItem.getFaculty_id()) {
                 faculty_id.setSelectedItem((s));
             }
-        }
-       
+        }      
     }
  
  public boolean check() {
@@ -84,9 +71,6 @@ public class NewTeacher extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(new JFrame(), "Введите телефон преподавателя.");
             return false;
         }
-        
-        
-        
         return true;
     }
     /**

@@ -8,11 +8,9 @@ package Group;
 import Entities.Faculty;
 import Entities.Group;
 import Faculty.FacultyModel;
-import Group.GroupModel;
 import Help.JTextFieldLimit;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
@@ -31,7 +29,6 @@ public class NewGroup extends javax.swing.JDialog {
         initComponents();
         setLocationRelativeTo(null);
         this.c = c;
-
         ((AbstractDocument) name.getDocument()).setDocumentFilter(new JTextFieldLimit(30));
         list = new ArrayList<>();
         faculty_id.setModel(new DefaultComboBoxModel(FacultyModel.selectFaculty(c).toArray()));
@@ -44,30 +41,26 @@ public class NewGroup extends javax.swing.JDialog {
         setLocationRelativeTo(null);
         this.c = c;
         editItem = u;
-
         ((AbstractDocument) name.getDocument()).setDocumentFilter(new JTextFieldLimit(30));
         list = new ArrayList<>();
         faculty_id.setModel(new DefaultComboBoxModel(FacultyModel.selectFaculty(c).toArray()));
-     
         fillFields();
     }
 
     private void fillFields() {
         name.setText(editItem.getName());
-         for (Faculty s : list) {
+        for (Faculty s : list) {
             if (s.getId() == editItem.getFacultyId()) {
                 faculty_id.setSelectedItem((s));
             }
-        }
-       
+        }      
     }
 
     public boolean check() {
         if ("".equals(name.getText())) {
             JOptionPane.showMessageDialog(new JFrame(), "Введите название группы.");
             return false;
-        }
-          
+        }          
         return true;
     }
     /**

@@ -10,19 +10,16 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.table.AbstractTableModel;
 
 public class ReportModel extends AbstractTableModel{
+    
     List<Report> list = new ArrayList<>();
-
     Connection c;
-        static final String selectStr = "SELECT * FROM Report";
-     public ReportModel(Connection c) throws SQLException {
+    static final String selectStr = "SELECT * FROM Report";
+    public ReportModel(Connection c) throws SQLException {
         super();
         this.c = c;
         list = selectReport(c);
@@ -35,7 +32,7 @@ public class ReportModel extends AbstractTableModel{
         rowsCount = list.size();
     }
        int rowsCount = 5;
-    int colCount = 7;
+       int colCount = 7;
     
     @Override
     public int getRowCount() {
@@ -97,26 +94,17 @@ public class ReportModel extends AbstractTableModel{
     }
     
     public static List<Report> selectReport(Connection c) throws SQLException{
- 
         List<Report> reports = new ArrayList<>();
-       PreparedStatement statement = c.prepareStatement(selectStr);
-
-            ResultSet rs = statement.executeQuery();
-    
-          
-            while (rs.next()) {
+        PreparedStatement statement = c.prepareStatement(selectStr);
+        ResultSet rs = statement.executeQuery();
+        while (rs.next()) {
                 Report item = new Report(rs.getString("faculty"), rs.getString("name_of_group"), 
-                        rs.getString("student"),rs.getString("teacher"),rs.getString("discipline"),
+                rs.getString("student"),rs.getString("teacher"),rs.getString("discipline"),
                 rs.getString("data"),rs.getString("mark"));
-
-                reports.add(item);
-   
-               
+                reports.add(item);   
             }
             return reports;
     }
-    
-
-    }
+   }
    
  

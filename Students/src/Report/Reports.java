@@ -5,17 +5,9 @@
  */
 package Report;
 import Help.SizeSetter;
-import java.awt.Frame;
 import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JTable;
-import javax.swing.table.AbstractTableModel;
 /**
  *
  * @author user
@@ -27,20 +19,16 @@ public class Reports extends javax.swing.JDialog {
     SizeSetter columnWidth;/**
      * Creates new form Vedomosts
      */
-   public Reports(java.awt.Frame parent, boolean modal, Connection c) throws SQLException {
+    public Reports(java.awt.Frame parent, boolean modal, Connection c) throws SQLException {
         super(parent, modal);
         initComponents();
         setLocationRelativeTo(null);
         connection = c;
-
         model = new ReportModel(connection);
         jTable1.setModel(model);
         jTable1.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         columnWidth = new SizeSetter();
-        columnWidth.resizeColumnWidth(jTable1);
-        
-//        getCountRows();
-    
+        columnWidth.resizeColumnWidth(jTable1); 
     }
 
     /**

@@ -9,16 +9,13 @@ import Entities.Discipline;
 import Entities.Teacher_Discipline;
 import Teacher.TeacherModel;
 import Discipline.DisciplineModel;
-import Help.JTextFieldLimit;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.text.AbstractDocument;
 /**
  *
  * @author user
@@ -39,14 +36,10 @@ public class NewTeacher_Discipline extends javax.swing.JDialog {
         initComponents();
         setLocationRelativeTo(null);
         this.c = c;
-
-       
         list1 = new ArrayList<>();
         teacher_name.setModel(new DefaultComboBoxModel(TeacherModel.selectTeacher(c).toArray()));
-        
         list2 = new ArrayList<>();
-        discipline_name.setModel(new DefaultComboBoxModel(DisciplineModel.selectDiscipline(c).toArray()));
-       
+        discipline_name.setModel(new DefaultComboBoxModel(DisciplineModel.selectDiscipline(c).toArray()));  
     }
 
      public NewTeacher_Discipline(java.awt.Frame parent, boolean modal, Connection c, Teacher_Discipline u) throws SQLException {
@@ -55,18 +48,14 @@ public class NewTeacher_Discipline extends javax.swing.JDialog {
         setLocationRelativeTo(null);
         this.c = c;
         editItem = u;
-
-        
         list1 = new ArrayList<>();
         teacher_name.setModel(new DefaultComboBoxModel(TeacherModel.selectTeacher(c).toArray()));
-     
         list2 = new ArrayList<>();
         discipline_name.setModel(new DefaultComboBoxModel(DisciplineModel.selectDiscipline(c).toArray()));
         fillFields();
     }
      
      private void fillFields() {
-       
         for (Teacher s : list1) {
             if (s.getId() == editItem.getTeacher_id()) {
                 teacher_name.setSelectedItem((s));
@@ -76,8 +65,7 @@ public class NewTeacher_Discipline extends javax.swing.JDialog {
             if (s.getId() == editItem.getDiscipline_id()) {
                 discipline_name.setSelectedItem((s));
             }
-        }
-        
+        }        
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -157,7 +145,6 @@ public class NewTeacher_Discipline extends javax.swing.JDialog {
 
     private void jButtonOk1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonOk1ActionPerformed
 
-        
         try{
             Teacher_DisciplineModel wm = new Teacher_DisciplineModel(c);
             wm.insertOrUpdate(editItem, 

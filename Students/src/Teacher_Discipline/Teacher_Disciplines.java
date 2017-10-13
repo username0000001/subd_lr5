@@ -7,13 +7,9 @@ package Teacher_Discipline;
 import Help.SizeSetter;
 import java.awt.Frame;
 import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 /**
@@ -21,7 +17,7 @@ import javax.swing.table.AbstractTableModel;
  * @author user
  */
 public class Teacher_Disciplines extends javax.swing.JDialog {
-Connection connection;
+    Connection connection;
     Teacher_DisciplineModel model;
     SizeSetter columnWidth;
     /**
@@ -32,25 +28,12 @@ Connection connection;
         initComponents();
         setLocationRelativeTo(null);
         connection = c;
-
         model = new Teacher_DisciplineModel(connection);
         jTable1.setModel(model);
         jTable1.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         columnWidth = new SizeSetter();
         columnWidth.resizeColumnWidth(jTable1);
-//        getCountRows();
     }
-
-//       private void getCountRows(){
-//        try {
-//                Statement statement = connection.createStatement();
-//                ResultSet rs = statement.executeQuery("select count(*) from teacher_discipline");
-//                rs.next();
-//                System.out.println(rs.getInt(1));
-//            } catch (SQLException ex) {
-//                JOptionPane.showMessageDialog(new JFrame(), ex.getMessage());
-//            }
-//    }
 
     /**
      * This method is called from within the constructor to initialize the form.

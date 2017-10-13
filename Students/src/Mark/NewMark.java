@@ -5,18 +5,13 @@
  */
 package Mark;
 import Entities.Mark;
-//import Ocenka.OcenkaModel;
-import Entities.Faculty;
 import Entities.Student;
-import Entities.Teacher_Discipline;
 import Entities.Teacher_Discipline_View;
 import Teacher_Discipline_View.Teacher_Discipline_ViewModel;
-import Teacher_Discipline.Teacher_DisciplineModel;
 import Student.StudentModel;
 import Help.JTextFieldLimit;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
@@ -28,10 +23,10 @@ import javax.swing.text.AbstractDocument;
  * @author user
  */
 public class NewMark extends javax.swing.JDialog {
-   Connection c;
+    Connection c;
     Mark editItem;
     List<Student> list1;
-   List<Teacher_Discipline_View> list2;
+    List<Teacher_Discipline_View> list2;
 
 
     /**
@@ -43,66 +38,52 @@ public class NewMark extends javax.swing.JDialog {
         initComponents();
         setLocationRelativeTo(null);
         this.c = c;
-
         ((AbstractDocument) data.getDocument()).setDocumentFilter(new JTextFieldLimit(30));//название полей в форме
-        ((AbstractDocument) mark.getDocument()).setDocumentFilter(new JTextFieldLimit(30));
-
-        
+        ((AbstractDocument) mark.getDocument()).setDocumentFilter(new JTextFieldLimit(30)); 
         list1 = new ArrayList<>();
-        student.setModel(new DefaultComboBoxModel(StudentModel.selectStudent(c).toArray()));
-        
+        student.setModel(new DefaultComboBoxModel(StudentModel.selectStudent(c).toArray())); 
         list2= new ArrayList<>();
         teacher_discipline.setModel(new DefaultComboBoxModel(Teacher_Discipline_ViewModel.selectTeacher_Discipline_View(c).toArray()));
- 
     }
-public NewMark(java.awt.Frame parent, boolean modal, Connection c, Mark u) throws SQLException {
+    public NewMark(java.awt.Frame parent, boolean modal, Connection c, Mark u) throws SQLException {
         super(parent, modal);
         initComponents();
         setLocationRelativeTo(null);
         this.c = c;
         editItem = u;
-((AbstractDocument) mark.getDocument()).setDocumentFilter(new JTextFieldLimit(30));
-((AbstractDocument) data.getDocument()).setDocumentFilter(new JTextFieldLimit(30));//название полей в форме
-        
-
-       list1 = new ArrayList<>();
+        ((AbstractDocument) mark.getDocument()).setDocumentFilter(new JTextFieldLimit(30));
+        ((AbstractDocument) data.getDocument()).setDocumentFilter(new JTextFieldLimit(30));
+        list1 = new ArrayList<>();
         student.setModel(new DefaultComboBoxModel(StudentModel.selectStudent(c).toArray()));
-        
         list2= new ArrayList<>();
         teacher_discipline.setModel(new DefaultComboBoxModel(Teacher_Discipline_ViewModel.selectTeacher_Discipline_View(c).toArray()));
-     
         fillFields();
     }
 
 private void fillFields() {//заполнение в форме нзавание полей в форме
         mark.setText(editItem.getMark());
         data.setText(editItem.getData());
-        
-         for (Student s : list1) {
+        for (Student s : list1) {
             if (s.getId() == editItem.getStudent_id()) {
                 student.setSelectedItem((s));
             }
          }
-            
              for (Teacher_Discipline_View s : list2) {
-            if (s.getId() == editItem.getTeacher_Discipline_id()) {
+             if (s.getId() == editItem.getTeacher_Discipline_id()) {
                 teacher_discipline.setSelectedItem((s));
             }
-        }
-       
+        }       
     }
 
 public boolean check() {
         if ("".equals(mark.getText())) {
             JOptionPane.showMessageDialog(new JFrame(), "Введите оценку.");
             return false;
-        }
-            
+        }  
             if ("".equals(data.getText())) {
             JOptionPane.showMessageDialog(new JFrame(), "Введите дату.");
             return false;
             }
-     
         return true;
     }
     /**
@@ -217,9 +198,7 @@ public boolean check() {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonOk1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonOk1ActionPerformed
-//      if (!check()) {
-//            return;
-//      }
+
          try{
             MarkModel wm = new MarkModel(c);
             wm.insertOrUpdate(editItem, data.getText(),

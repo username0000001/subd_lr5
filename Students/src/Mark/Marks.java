@@ -22,7 +22,7 @@ import javax.swing.table.AbstractTableModel;
  * @author user
  */
 public class Marks extends javax.swing.JDialog {
-Connection connection;
+    Connection connection;
     MarkModel model;
     SizeSetter columnWidth;
     /**
@@ -33,7 +33,6 @@ Connection connection;
         initComponents();
         setLocationRelativeTo(null);
         connection = c;
-
         model = new MarkModel(connection);
         jTable1.setModel(model);
         jTable1.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);

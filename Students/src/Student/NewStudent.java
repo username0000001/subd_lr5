@@ -5,14 +5,11 @@
  */
 package Student;
 import Entities.Student;
-import Entities.Faculty;
 import Entities.Group;
 import Group.GroupModel;
-//import Student.StudentModel;
 import Help.JTextFieldLimit;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
@@ -36,16 +33,12 @@ public class NewStudent extends javax.swing.JDialog {
         initComponents();
         setLocationRelativeTo(null);
         this.c = c;
-
-        ((AbstractDocument) surname.getDocument()).setDocumentFilter(new JTextFieldLimit(30));//название полей в форме
-//        ((AbstractDocument) name.getDocument()).setDocumentFilter(new JTextFieldLimit(30));
-//        ((AbstractDocument) patronymic.getDocument()).setDocumentFilter(new JTextFieldLimit(30));
+        ((AbstractDocument) surname.getDocument()).setDocumentFilter(new JTextFieldLimit(30));
         ((AbstractDocument) telephone.getDocument()).setDocumentFilter(new JTextFieldLimit(30));
         ((AbstractDocument) address.getDocument()).setDocumentFilter(new JTextFieldLimit(30));
         ((AbstractDocument) parents_phone.getDocument()).setDocumentFilter(new JTextFieldLimit(30));
         list = new ArrayList<>();
-        group_id.setModel(new DefaultComboBoxModel(GroupModel.selectGroup(c).toArray()));
-       
+        group_id.setModel(new DefaultComboBoxModel(GroupModel.selectGroup(c).toArray()));      
     }
      
      public NewStudent(java.awt.Frame parent, boolean modal, Connection c, Student u) throws SQLException {
@@ -54,23 +47,17 @@ public class NewStudent extends javax.swing.JDialog {
         setLocationRelativeTo(null);
         this.c = c;
         editItem = u;
-
-        ((AbstractDocument) surname.getDocument()).setDocumentFilter(new JTextFieldLimit(30));//название полей в форме
-//        ((AbstractDocument) name.getDocument()).setDocumentFilter(new JTextFieldLimit(30));
-//        ((AbstractDocument) patronymic.getDocument()).setDocumentFilter(new JTextFieldLimit(30));
+        ((AbstractDocument) surname.getDocument()).setDocumentFilter(new JTextFieldLimit(30));
         ((AbstractDocument) telephone.getDocument()).setDocumentFilter(new JTextFieldLimit(30));
         ((AbstractDocument) address.getDocument()).setDocumentFilter(new JTextFieldLimit(30));
         ((AbstractDocument) parents_phone.getDocument()).setDocumentFilter(new JTextFieldLimit(30));
         list = new ArrayList<>();
         group_id.setModel(new DefaultComboBoxModel(GroupModel.selectGroup(c).toArray()));
-     
         fillFields();
     }
      
-      private void fillFields() {//заполнение в форме нзавание полей в форме
+      private void fillFields() {
         surname.setText(editItem.getSurname());
-//        name.setText(editItem.getName());
-//        patronymic.setText(editItem.getPatronymic());
         telephone.setText(editItem.getTelephone());
         address.setText(editItem.getAddress());
         parents_phone.setText(editItem.getTelephone_of_parents());
@@ -78,28 +65,15 @@ public class NewStudent extends javax.swing.JDialog {
             if (s.getId() == editItem.getGroup_id()) {
                 group_id.setSelectedItem((s));
             }
-        }
-       
+        }      
     }
       
       public boolean check() {
-        
+
             if ("".equals(surname.getText())) {
             JOptionPane.showMessageDialog(new JFrame(), "Введите ФИО студента.");
             return false;
             }
-            
-       
-//            if ("".equals(name.getText())) {
-//            JOptionPane.showMessageDialog(new JFrame(), "name cannot be empty");
-//            return false;
-//            }
-//            
-//       
-//            if ("".equals(patronymic.getText())) {
-//            JOptionPane.showMessageDialog(new JFrame(), "patronymic cannot be empty");
-//            return false;
-//            }
         
             if ("".equals(telephone.getText())) {
             JOptionPane.showMessageDialog(new JFrame(), "Введите телефон студента.");
@@ -116,9 +90,6 @@ public class NewStudent extends javax.swing.JDialog {
         
             return false;
         }
-        
-        
-        
         return true;
     }
 
@@ -255,8 +226,8 @@ public class NewStudent extends javax.swing.JDialog {
         try{
             StudentModel wm = new StudentModel(c);
             wm.insertOrUpdate(editItem, surname.getText(),
-                   telephone.getText(),address.getText(),parents_phone.getText(),
-                ((Group) group_id.getSelectedItem()).getId());
+            telephone.getText(),address.getText(),parents_phone.getText(),
+            ((Group) group_id.getSelectedItem()).getId());
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(new JFrame(), ex.getMessage());
             return;

@@ -10,7 +10,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JFrame;
@@ -22,11 +21,13 @@ public class DisciplineModel extends AbstractTableModel {
     List<Discipline> list = new ArrayList<>();
 
     Connection c;
-    static final String selectStr = "SELECT * FROM discipline";
-     static final String selectStrById = "SELECT * FROM Discipline WHERE Discipline_id = ?";
-      final String deleteStr="delete from Discipline where discipline_id=?";
-       final String insertStr = "insert into Discipline (Discipline_name,Number_of_hours) values (?,?);";
-final String updateStr = "update Discipline set Discipline_name=?,Number_of_hours=? where discipline_id=?";
+       
+        static final String selectStr = "SELECT * FROM discipline";
+        static final String selectStrById = "SELECT * FROM Discipline WHERE Discipline_id = ?";
+        final String deleteStr="delete from Discipline where discipline_id=?";
+        final String insertStr = "insert into Discipline (Discipline_name,Number_of_hours) values (?,?);";
+        final String updateStr = "update Discipline set Discipline_name=?,Number_of_hours=? where discipline_id=?";
+   
     public DisciplineModel(Connection c) throws SQLException {
         super();
         this.c = c;
@@ -40,7 +41,7 @@ final String updateStr = "update Discipline set Discipline_name=?,Number_of_hour
         rowsCount = list.size();
     }
     
-    int rowsCount = 5;
+    int rowsCount;
     int colCount = 2;
     
     @Override
@@ -59,8 +60,7 @@ final String updateStr = "update Discipline set Discipline_name=?,Number_of_hour
             case 0:
                 return list.get(rowIndex).getDiscipline_name();
             case 1:
-                return list.get(rowIndex).getNumber_of_hours();
-          
+                return list.get(rowIndex).getNumber_of_hours(); 
         }
         return null;
     }
@@ -71,8 +71,7 @@ final String updateStr = "update Discipline set Discipline_name=?,Number_of_hour
             case 0:
                 return "Название дисциплины";
             case 1:
-                return "Количество часов";
-           
+                return "Количество часов";   
         }
         return null;
     }
@@ -82,31 +81,26 @@ final String updateStr = "update Discipline set Discipline_name=?,Number_of_hour
     }
 
     public static List<Discipline> selectDiscipline(Connection c) throws SQLException{
-       
         List<Discipline> disciplines = new ArrayList<>();
         PreparedStatement statement = c.prepareStatement(selectStr);
-
-            ResultSet rs = statement.executeQuery();
-        
-            
-            while (rs.next()) {
-                Discipline item = new Discipline(rs.getInt("Discipline_id"), rs.getString("Discipline_name"), 
-                        rs.getInt("Number_of_hours"));
-
-                disciplines.add(item);
-            }
-            return disciplines;
+        ResultSet rs = statement.executeQuery();
+        while (rs.next()) {
+            Discipline item = new Discipline(rs.getInt("Discipline_id"), 
+            rs.getString("Discipline_name"), 
+            rs.getInt("Number_of_hours"));
+            disciplines.add(item);
+        }
+        return disciplines;
     }
    
     public static Discipline selectDisciplineById(Connection c, int Discipline_id) throws SQLException{
         PreparedStatement statement = c.prepareStatement(selectStrById);
         statement.setInt(1, Discipline_id);
         ResultSet rs = statement.executeQuery();
-        
         Discipline discipline = null;
         while (rs.next()) {
            discipline = new Discipline(rs.getInt("Discipline_id"), rs.getString("Discipline_name"), 
-                    rs.getInt("Number_of_hours"));
+           rs.getInt("Number_of_hours"));
         }
         return discipline;
     }
@@ -118,18 +112,13 @@ final String updateStr = "update Discipline set Discipline_name=?,Number_of_hour
                 PreparedStatement statement = c.prepareStatement(insertStr);
                 statement.setString(1, Discipline_name);
                 statement.setInt(2, Number_of_hours);
-                
-                
                 statement.execute(); 
-           
-           
             } else {
                 PreparedStatement statement = c.prepareStatement(updateStr);
                 statement.setString(1, Discipline_name);
                 statement.setInt(2, Number_of_hours);
                 statement.setInt(3, editItem.getId());
                 statement.execute();
-             
             }
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(new JFrame(), ex.getMessage());
@@ -139,12 +128,10 @@ final String updateStr = "update Discipline set Discipline_name=?,Number_of_hour
     public void delete(int Discipline_id){
         try {
             PreparedStatement statement = c.prepareStatement(deleteStr);
-                statement.setInt(1, Discipline_id);
-                statement.execute();
-               
+            statement.setInt(1, Discipline_id);
+            statement.execute();   
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(new JFrame(), ex.getMessage());
             }
-    }
-    
+    }    
 }

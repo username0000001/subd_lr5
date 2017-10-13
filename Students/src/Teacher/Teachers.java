@@ -8,13 +8,9 @@ package Teacher;
 import Help.SizeSetter;
 import java.awt.Frame;
 import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 /**
@@ -34,15 +30,11 @@ public class Teachers extends javax.swing.JDialog {
         initComponents();
         setLocationRelativeTo(null);
         connection = c;
-
         model = new TeacherModel(connection);
         jTable1.setModel(model);
         jTable1.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         columnWidth = new SizeSetter();
-        columnWidth.resizeColumnWidth(jTable1);
-        
-//        getCountRows();
-    
+        columnWidth.resizeColumnWidth(jTable1); 
     }
 
     /**
