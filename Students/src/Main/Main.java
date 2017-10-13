@@ -70,7 +70,7 @@ public class Main extends javax.swing.JFrame {
         students = new javax.swing.JMenuItem();
         marks = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
-        report = new javax.swing.JMenuItem();
+        vedomost = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -167,13 +167,13 @@ public class Main extends javax.swing.JFrame {
 
         jMenu3.setText("Действия");
 
-        report.setText("Отчет об успеваемости");
-        report.addActionListener(new java.awt.event.ActionListener() {
+        vedomost.setText("Отчет об успеваемости");
+        vedomost.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                reportActionPerformed(evt);
+                vedomostActionPerformed(evt);
             }
         });
-        jMenu3.add(report);
+        jMenu3.add(vedomost);
 
         jMenuBar1.add(jMenu3);
 
@@ -295,7 +295,7 @@ public class Main extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_Teachers_DisciplinesActionPerformed
 
-    private void reportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reportActionPerformed
+    private void vedomostActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_vedomostActionPerformed
         if (connection != null) {
             try {
                 Reports w = new Reports(this, true, connection);
@@ -306,7 +306,7 @@ public class Main extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(new JFrame(), "Нет подключений");
         }
-    }//GEN-LAST:event_reportActionPerformed
+    }//GEN-LAST:event_vedomostActionPerformed
 
     private void studentsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_studentsActionPerformed
         // TODO add your handling code here:
@@ -385,8 +385,8 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem marks;
-    private javax.swing.JMenuItem report;
     private javax.swing.JTextField status;
     private javax.swing.JMenuItem students;
+    private javax.swing.JMenuItem vedomost;
     // End of variables declaration//GEN-END:variables
 }
