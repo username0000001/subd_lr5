@@ -7,6 +7,7 @@ package Discipline;
 
 import Entities.Discipline;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -21,7 +22,11 @@ public class DisciplineModel extends AbstractTableModel {
     List<Discipline> list = new ArrayList<>();
 
     Connection c;
-    
+    static final String selectStr = "SELECT * FROM discipline";
+     static final String selectStrById = "SELECT * FROM Discipline WHERE Discipline_id = ?";
+      final String deleteStr="delete from Discipline where discipline_id=?";
+       final String insertStr = "insert into Discipline (Discipline_name,Number_of_hours) values (?,?);";
+final String updateStr = "update Discipline set Discipline_name=?,Number_of_hours=? where discipline_id=?";
     public DisciplineModel(Connection c) throws SQLException {
         super();
         this.c = c;
@@ -77,9 +82,13 @@ public class DisciplineModel extends AbstractTableModel {
     }
 
     public static List<Discipline> selectDiscipline(Connection c) throws SQLException{
-        Statement statement = c.createStatement();
+       
         List<Discipline> disciplines = new ArrayList<>();
-            ResultSet rs = statement.executeQuery("SELECT * FROM discipline");
+        PreparedStatement statement = c.prepareStatement(selectStr);
+
+            ResultSet rs = statement.executeQuery();
+        
+            
             while (rs.next()) {
                 Discipline item = new Discipline(rs.getInt("Discipline_id"), rs.getString("Discipline_name"), 
                         rs.getInt("Number_of_hours"));
@@ -88,10 +97,12 @@ public class DisciplineModel extends AbstractTableModel {
             }
             return disciplines;
     }
-    
+   
     public static Discipline selectDisciplineById(Connection c, int Discipline_id) throws SQLException{
-    Statement statement = c.createStatement();
-        ResultSet rs = statement.executeQuery("SELECT * FROM Discipline WHERE Discipline_id = "+Discipline_id );
+        PreparedStatement statement = c.prepareStatement(selectStrById);
+        statement.setInt(1, Discipline_id);
+        ResultSet rs = statement.executeQuery();
+        
         Discipline discipline = null;
         while (rs.next()) {
            discipline = new Discipline(rs.getInt("Discipline_id"), rs.getString("Discipline_name"), 
@@ -99,32 +110,38 @@ public class DisciplineModel extends AbstractTableModel {
         }
         return discipline;
     }
+   
+
     public void insertOrUpdate(Discipline editItem, String Discipline_name, Integer Number_of_hours) {
         try {
-            Statement statement = c.createStatement();
             if (editItem == null) {
-                statement.executeUpdate("insert into Discipline "
-                    + "(Discipline_name,Number_of_hours) "
-                    + "values ('"
-                    + Discipline_name + "','" + Number_of_hours
-                    + "');");
+                PreparedStatement statement = c.prepareStatement(insertStr);
+                statement.setString(1, Discipline_name);
+                statement.setInt(2, Number_of_hours);
+                
+                
+                statement.execute(); 
+           
+           
             } else {
-                statement.executeUpdate("update Discipline set Discipline_name='"
-                    + Discipline_name + "',Number_of_hours="
-                    + Number_of_hours +
-                     " where discipline_id="
-                    + editItem.getId() + ";");
+                PreparedStatement statement = c.prepareStatement(updateStr);
+                statement.setString(1, Discipline_name);
+                statement.setInt(2, Number_of_hours);
+                statement.setInt(3, editItem.getId());
+                statement.execute();
+             
             }
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(new JFrame(), ex.getMessage());
         }
     } 
-    
+   
     public void delete(int Discipline_id){
         try {
-                Statement statement = c.createStatement();
-                statement.executeUpdate("delete from Discipline where discipline_id="
-                    + Discipline_id + ";");
+            PreparedStatement statement = c.prepareStatement(deleteStr);
+                statement.setInt(1, Discipline_id);
+                statement.execute();
+               
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(new JFrame(), ex.getMessage());
             }

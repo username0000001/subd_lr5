@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import Entities.Student;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.ResultSet;
@@ -23,6 +24,14 @@ public class StudentModel extends AbstractTableModel {
     List<Student> list = new ArrayList<>();//создаем список факультетов
     
     Connection c;
+    final String deleteStr = "delete from student where student_id=?"+";";
+    static final String selectStr = "SELECT * FROM Student";
+    static final String selectByIdStr = "SELECT * FROM Student WHERE student_id =?;";
+         final String insertStr = "insert into Student (surname,telephon,address,phonenumber_of_parents,group_id) "
+             + "values (?,?,?,?,?)";
+     final String updateStr = "update student set surname=?,telephon=?,address=?,"
+             + "phonenumber_of_parents=?,group_id=? where student_id=?;";
+     final String selectGroup="SELECT * from gro_up where group_id=?";
     
     public StudentModel(Connection c) throws SQLException {
         super();
@@ -67,10 +76,11 @@ public class StudentModel extends AbstractTableModel {
                 return list.get(rowIndex). getTelephone_of_parents(); 
             
             case 4: try {
-                    Statement statement = c.createStatement();
-                    ResultSet rs = statement.executeQuery("SELECT * from gro_up "
-                            + "where group_id=" + list.get(rowIndex).getGroup_id() 
-                            + ";");
+                    
+                    PreparedStatement statement = c.prepareStatement(selectGroup);
+                    statement.setInt(1, list.get(rowIndex).getGroup_id());
+                    ResultSet rs = statement.executeQuery();
+                    
                     rs.next();
                     s = rs.getString("group_name");
                 } catch (SQLException ex) {
@@ -89,10 +99,6 @@ public class StudentModel extends AbstractTableModel {
         switch (column) {
             case 0:
                 return "Фамилия";
-//            case 1:
-//                return "Имя";
-//            case 2:
-//                return "Отчество";
             case 1:
                 return "Телефон";
             case 2:
@@ -107,14 +113,15 @@ public class StudentModel extends AbstractTableModel {
         return null;
     }
     
-    public Student getSelectesItem(int row) {//возвращает одну строку
+    public Student getSelectesItem(int row) {
         return list.get(row);
     }
     
-    public static List<Student> selectStudent(Connection c) throws SQLException{//запрос вывод таблицы
-        Statement statement = c.createStatement();
+    public static List<Student> selectStudent(Connection c) throws SQLException{
         List<Student> students = new ArrayList<>();
-            ResultSet rs = statement.executeQuery("SELECT * FROM Student");
+        PreparedStatement statement = c.prepareStatement(selectStr);
+
+            ResultSet rs = statement.executeQuery();
             while (rs.next()) {
                 Student item = new Student(rs.getInt("student_id"), rs.getString("surname"), 
                         rs.getString("telephon"),
@@ -124,9 +131,11 @@ public class StudentModel extends AbstractTableModel {
             }
             return students;
     }
+    
      public static Student selectStudentById(Connection c, int student_id) throws SQLException{
-    Statement statement = c.createStatement();
-        ResultSet rs = statement.executeQuery("SELECT * FROM Student WHERE student_id = "+student_id );
+    PreparedStatement statement = c.prepareStatement(selectByIdStr);
+                statement.setInt(1, student_id);
+        ResultSet rs = statement.executeQuery();
         Student student = null;
         while (rs.next()) {
            student = new Student( rs.getInt("student_id"), rs.getString("surname"), 
@@ -136,34 +145,45 @@ public class StudentModel extends AbstractTableModel {
         }
         return student;
     }
+     
+
     public void insertOrUpdate(Student editItem, String Surname,
             String Telephone, String Address, String Telephone_of_parents, Integer Group_id) {
         try {
-            Statement statement = c.createStatement();
+            
             if (editItem == null) {
-                statement.executeUpdate("insert into Student "
-                    + "(surname,telephon,address,phonenumber_of_parents,group_id) "
-                    + "values ('"
-                    + Surname + "','" +Telephone+
-                        "','"+Address+"','"+Telephone_of_parents+"','"+Group_id
-                    + "');");
+                PreparedStatement statement = c.prepareStatement(insertStr);
+                statement.setString(1, Surname);
+                statement.setInt(2, Integer.parseInt(Telephone));
+                statement.setString(3, Address);
+                statement.setInt(4, Integer.parseInt(Telephone_of_parents));
+                statement.setInt(5, Group_id);
+                
+                statement.execute();                
             } else {
-                statement.executeUpdate("update student set surname='"
-                    + Surname +  "',telephon='"+Telephone+
-                     "',address='"+Address+ "',phonenumber_of_parents='"+Telephone_of_parents+"',group_id="+Group_id+
-                     " where student_id="
-                    + editItem.getId() + ";");
+                PreparedStatement statement = c.prepareStatement(updateStr);
+                statement.setString(1, Surname);
+                statement.setInt(2, Integer.parseInt(Telephone));
+                statement.setString(3, Address);
+                statement.setInt(4, Integer.parseInt(Telephone_of_parents));
+                statement.setInt(5, Group_id);
+                statement.setInt(6, editItem.getId());
+                
+                statement.execute();
             }
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(new JFrame(), ex.getMessage());
         }
     } 
-    
+  
+             
     public void delete(int student_id){
         try {
-                Statement statement = c.createStatement();
-                statement.executeUpdate("delete from student where student_id="
-                    + student_id + ";");
+              
+                PreparedStatement statement = c.prepareStatement(deleteStr);
+                statement.setInt(1, student_id);
+                statement.execute();
+      
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(new JFrame(), ex.getMessage());
             }

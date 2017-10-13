@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import Entities.Teacher;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.ResultSet;
@@ -23,7 +24,12 @@ public class TeacherModel extends AbstractTableModel {
     List<Teacher> list = new ArrayList<>();//создаем список факультетов
     
     Connection c;
-    
+    final  static String selectStr = "SELECT * FROM Teacher;";
+    final String selectFaculty = "SELECT * FROM faculty where faculty_id=?;";
+    final  static String selectStrById = "SELECT * FROM teacher WHERE teacher_id =?";
+    final String insertStr = "insert into teacher (surname,telephone,address,faculty_id) values (?,?,?,?)";
+    final String updateStr = "update teacher set surname=?,telephone=?,address=?,faculty_id=? where teacher_id=?";
+        final String deleteStr = "delete from teacher where teacher_id=?"+";";
     public TeacherModel(Connection c) throws SQLException {
         super();
         this.c = c;
@@ -65,10 +71,12 @@ public class TeacherModel extends AbstractTableModel {
                 return list.get(rowIndex). getAddress();
             case 3:
                 try {
-                    Statement statement = c.createStatement();
-                    ResultSet rs = statement.executeQuery("SELECT * FROM faculty "
-                            + "where faculty_id=" + list.get(rowIndex).getFaculty_id() 
-                            + ";");
+                   
+                    
+                    PreparedStatement statement = c.prepareStatement(selectFaculty);
+                    statement.setInt(1, list.get(rowIndex).getFaculty_id());
+                    ResultSet rs = statement.executeQuery();
+                    
                     rs.next();
                     s = rs.getString("faculty_name");
                 } catch (SQLException ex) {
@@ -87,10 +95,6 @@ public class TeacherModel extends AbstractTableModel {
         switch (column) {
             case 0:
                 return "Фамилия";
-//            case 1:
-//                return "Имя";
-//            case 2:
-//                return "Отчество";
             case 1:
                 return "Телефон";
             case 2:
@@ -108,9 +112,12 @@ public class TeacherModel extends AbstractTableModel {
     }
     
     public static List<Teacher> selectTeacher(Connection c) throws SQLException{//запрос вывод таблицы
-        Statement statement = c.createStatement();
+            
         List<Teacher> teachers = new ArrayList<>();
-            ResultSet rs = statement.executeQuery("SELECT * FROM Teacher");
+         PreparedStatement statement = c.prepareStatement(selectStr);
+                    
+                    ResultSet rs = statement.executeQuery();
+            
             while (rs.next()) {
                 Teacher item = new Teacher(rs.getInt("teacher_id"), rs.getString("surname"), 
                         rs.getString("telephone"),
@@ -121,8 +128,11 @@ public class TeacherModel extends AbstractTableModel {
             return teachers;
     }
      public static Teacher selectTeacherById(Connection c, int teacher_id) throws SQLException{
-    Statement statement = c.createStatement();
-        ResultSet rs = statement.executeQuery("SELECT * FROM teacher WHERE teacher_id = "+teacher_id );
+    
+         PreparedStatement statement = c.prepareStatement(selectStrById);
+               statement.setInt(1, teacher_id);      
+                    ResultSet rs = statement.executeQuery();
+        
         Teacher teacher = null;
         while (rs.next()) {
            teacher = new Teacher( rs.getInt("teacher_id"), rs.getString("surname"), 
@@ -132,34 +142,44 @@ public class TeacherModel extends AbstractTableModel {
         }
         return teacher;
     }
+     
+      
+
     public void insertOrUpdate(Teacher editItem, String Surname,
             String Telephone, String Address,Integer Faculty_id) {
         try {
-            Statement statement = c.createStatement();
-            if (editItem == null) {
-                statement.executeUpdate("insert into teacher "
-                    + "(surname,telephone,address,faculty_id) "
-                    + "values ('"
-                    + Surname + "','" +Telephone+
-                        "','"+Address+"','"+Faculty_id
-                    + "');");
+
+          if (editItem == null) {
+                PreparedStatement statement = c.prepareStatement(insertStr);
+                statement.setString(1, Surname);
+                statement.setInt(2, Integer.parseInt(Telephone));
+                statement.setString(3, Address);
+                statement.setInt(4, Faculty_id);
+                
+                statement.execute(); 
             } else {
-                statement.executeUpdate("update teacher set surname='"
-                    + Surname +  "',telephone='"+Telephone+
-                     "',address='"+Address+ "',faculty_id="+Faculty_id+
-                     " where teacher_id="
-                    + editItem.getId() + ";");
+               PreparedStatement statement = c.prepareStatement(updateStr);
+                statement.setString(1, Surname);
+                statement.setInt(2, Integer.parseInt(Telephone));
+                statement.setString(3, Address);
+                statement.setInt(4, Faculty_id);
+                statement.setInt(5, editItem.getId());
+                
+                statement.execute();
+                
             }
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(new JFrame(), ex.getMessage());
         }
     } 
-    
+
     public void delete(int teacher_id){
         try {
-                Statement statement = c.createStatement();
-                statement.executeUpdate("delete from teacher where teacher_id="
-                    + teacher_id + ";");
+
+                PreparedStatement statement = c.prepareStatement(deleteStr);
+                statement.setInt(1, teacher_id);
+                statement.execute();
+
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(new JFrame(), ex.getMessage());
             }

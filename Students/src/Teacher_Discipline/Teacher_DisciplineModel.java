@@ -6,6 +6,7 @@
 package Teacher_Discipline;
 import Entities.Teacher_Discipline;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -22,6 +23,13 @@ public class Teacher_DisciplineModel extends AbstractTableModel{
     List<Teacher_Discipline> list = new ArrayList<>();
 
     Connection c;
+     final String deleteStr = "delete from Teacher_Discipline where teacher_discipline_id=?";
+      final String selectTeacher="SELECT * from teacher where teacher_id=?";
+final String selectDiscipline="SELECT * FROM discipline where discipline_id=?";
+final String insertStr = "insert into Teacher_Discipline (teacher_id,discipline_id) values (?,?);";
+     final String updateStr = "update Teacher_Discipline set teacher_id=?,discipline_id=? where teacher_discipline_id=?";
+static final String selectStr = "SELECT * FROM Teacher_Discipline"; 
+      static final String selectByIdStr = "SELECT * FROM Teacher_Discipline WHERE teacher_discipline_id  =?;"; 
      public Teacher_DisciplineModel(Connection c) throws SQLException {
         super();
         this.c = c;
@@ -47,7 +55,7 @@ public class Teacher_DisciplineModel extends AbstractTableModel{
     public int getColumnCount() {
         return colCount;
     }
-    
+   
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         String s = "";
@@ -55,10 +63,10 @@ public class Teacher_DisciplineModel extends AbstractTableModel{
             
             case 0:
                 try {
-                    Statement statement = c.createStatement();
-                    ResultSet rs = statement.executeQuery("SELECT * from teacher "
-                            + "where teacher_id=" + list.get(rowIndex).getTeacher_id() 
-                            + ";");
+
+                    PreparedStatement statement = c.prepareStatement(selectTeacher);
+                    statement.setInt(1, list.get(rowIndex).getTeacher_id());
+                    ResultSet rs = statement.executeQuery();
                     rs.next();
                     s = rs.getString("surname");
                 } catch (SQLException ex) {
@@ -68,10 +76,11 @@ public class Teacher_DisciplineModel extends AbstractTableModel{
                 
             case 1:
                  try {
-                    Statement statement = c.createStatement();
-                    ResultSet rs = statement.executeQuery("SELECT * FROM discipline "
-                            + "where discipline_id=" + list.get(rowIndex).getDiscipline_id() 
-                            + ";");
+
+                    PreparedStatement statement = c.prepareStatement(selectDiscipline);
+                    statement.setInt(1, list.get(rowIndex).getDiscipline_id());
+                    ResultSet rs = statement.executeQuery();
+
                     rs.next();
                     
                     s = rs.getString("discipline_name");
@@ -102,12 +111,14 @@ public class Teacher_DisciplineModel extends AbstractTableModel{
     }
     
     public static List<Teacher_Discipline> selectTeacher_Discipline(Connection c) throws SQLException{
-        Statement statement = c.createStatement();
+
         List<Teacher_Discipline> teacher_Disciplines = new ArrayList<>();
-            ResultSet rs = statement.executeQuery("SELECT * FROM Teacher_Discipline");
+        PreparedStatement statement = c.prepareStatement(selectStr);
+         ResultSet rs = statement.executeQuery();
+            
             while (rs.next()) {
                 
-//                System.out.println(rs.getInt(1)+ " " +rs.getInt(2)+ " " +rs.getInt(3));
+
                 Teacher_Discipline item = new Teacher_Discipline(rs.getInt("teacher_discipline_id"), rs.getInt("teacher_id"),rs.getInt("discipline_id")
                         );
 
@@ -117,10 +128,13 @@ public class Teacher_DisciplineModel extends AbstractTableModel{
     }
     
    
-    
+ 
     public static Teacher_Discipline selectGruppaById(Connection c, int id) throws SQLException{
-    Statement statement = c.createStatement();
-        ResultSet rs = statement.executeQuery("SELECT * FROM Teacher_Discipline WHERE teacher_discipline_id = "+id );
+ 
+    PreparedStatement statement = c.prepareStatement(selectByIdStr);
+                statement.setInt(1, id);
+                ResultSet rs = statement.executeQuery();
+        
         Teacher_Discipline teacher_Discipline = null;
         while (rs.next()) {
            teacher_Discipline = new Teacher_Discipline( rs.getInt("teacher_discipline_id"), rs.getInt("teacher_id"),rs.getInt("discipline_id")
@@ -128,32 +142,36 @@ public class Teacher_DisciplineModel extends AbstractTableModel{
         }
         return teacher_Discipline;
     }
+    
+    
     public void insertOrUpdate(Teacher_Discipline editItem, Integer Teacher_id, Integer Discipline_id) {
         try {
-            Statement statement = c.createStatement();
             if (editItem == null) {
-                statement.executeUpdate("insert into Teacher_Discipline "
-                    + "(teacher_id,discipline_id) "
-                    + "values ('"
-                    + Teacher_id + "','" + Discipline_id
-                    + "');");
+                PreparedStatement statement = c.prepareStatement(insertStr);
+                statement.setInt(1, Teacher_id);
+                statement.setInt(2, Discipline_id);
+                  statement.execute();   
+          
             } else {
-                statement.executeUpdate("update Teacher_Discipline set teacher_id='"
-                    + Teacher_id + "',discipline_id="
-                    + Discipline_id +
-                     " where teacher_discipline_id="
-                    + editItem.getId() + ";");
+                PreparedStatement statement = c.prepareStatement(updateStr);
+                statement.setInt(1, Teacher_id);
+                statement.setInt(2, Discipline_id);
+                statement.setInt(3, editItem.getId());
+
+                statement.execute();
+               
             }
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(new JFrame(), ex.getMessage());
         }
     } 
-    
+   
     public void delete(int teacher_discipline_id){
         try {
-                Statement statement = c.createStatement();
-                statement.executeUpdate("delete from Teacher_Discipline where teacher_discipline_id="
-                    + teacher_discipline_id + ";");
+            PreparedStatement statement = c.prepareStatement(deleteStr);
+                statement.setInt(1, teacher_discipline_id);
+                statement.execute();
+                
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(new JFrame(), ex.getMessage());
             }
