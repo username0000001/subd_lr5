@@ -46,7 +46,7 @@ public class MarkModel extends AbstractTableModel {
         list = selectMark(c);
         rowsCount = list.size();
     }
-    int rowsCount = 5;
+    int rowsCount;
     int colCount = 4;
 
     @Override

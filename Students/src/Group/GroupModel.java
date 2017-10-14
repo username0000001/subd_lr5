@@ -41,7 +41,7 @@ public class GroupModel extends AbstractTableModel {
         rowsCount = list.size();
     }
     
-    int rowsCount = 5;
+    int rowsCount;
     int colCount = 2;
     
     @Override
@@ -86,7 +86,7 @@ public class GroupModel extends AbstractTableModel {
         return null;
     }
 
-    public Group getSelectesItem(int row) {
+    public Group getSelectesItem(int row) {//принимает номер выбранной строки и возвращает элемент списка, например, для создания нового объекта списка
         return list.get(row);
     }
 

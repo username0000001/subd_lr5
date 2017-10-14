@@ -35,7 +35,7 @@ public class FacultyModel extends AbstractTableModel {
         rowsCount = list.size();
     }
     
-    int rowsCount = 5;
+    int rowsCount;
     int colCount = 2;
 
     @Override
@@ -87,15 +87,15 @@ public class FacultyModel extends AbstractTableModel {
     }
        
     public static Faculty selectFacultyById(Connection c, int faculty_id) throws SQLException{
-    PreparedStatement statement = c.prepareStatement(selectStrById);
-    statement.setInt(1, faculty_id);
-    ResultSet rs = statement.executeQuery();
-    Faculty facultet = null;
+        PreparedStatement statement = c.prepareStatement(selectStrById);
+        statement.setInt(1, faculty_id);
+        ResultSet rs = statement.executeQuery();
+        Faculty faculty = null;
         while (rs.next()) {
-           facultet = new Faculty(rs.getInt("faculty_id"), rs.getString("Faculty_name"), 
+           faculty = new Faculty(rs.getInt("faculty_id"), rs.getString("Faculty_name"), 
            rs.getString("Dean"));
         }
-        return facultet;
+        return faculty;
     }
 
     

@@ -38,18 +38,6 @@ public class Marks extends javax.swing.JDialog {
         jTable1.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         columnWidth = new SizeSetter();
         columnWidth.resizeColumnWidth(jTable1);
-        getCountRows();
-    }
-
-      private void getCountRows(){
-        try {
-                Statement statement = connection.createStatement();
-                ResultSet rs = statement.executeQuery("select count(*) from mark");
-                rs.next();
-                System.out.println(rs.getInt(1));
-            } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(new JFrame(), ex.getMessage());
-            }
     }
 
     /** This method is called from within the constructor to
